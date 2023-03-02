@@ -1,6 +1,8 @@
 <?php
 
-namespace Vyuldashev\NovaPermission;
+declare(strict_types=1);
+
+namespace CodeHeroMX\NovaPermission;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -10,6 +12,7 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\MorphToMany;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Nova;
 use Laravel\Nova\Resource;
 use Spatie\Permission\PermissionRegistrar;
@@ -96,11 +99,11 @@ class Permission extends Resource
 
             Text::make(__('nova-permission-tool::permissions.name'), 'name')
                 ->rules(['required', 'string', 'max:255'])
-                ->creationRules('unique:'.config('permission.table_names.permissions'))
-                ->updateRules('unique:'.config('permission.table_names.permissions').',name,{{resourceId}}'),
+                ->creationRules('unique:' . config('permission.table_names.permissions'))
+                ->updateRules('unique:' . config('permission.table_names.permissions') . ',name,{{resourceId}}'),
 
             Text::make(__('nova-permission-tool::permissions.display_name'), function () {
-                return __('nova-permission-tool::permissions.display_names.'.$this->name);
+                return __('nova-permission-tool::permissions.display_names.' . $this->name);
             })->canSee(function () {
                 return is_array(__('nova-permission-tool::permissions.display_names'));
             }),
@@ -112,7 +115,10 @@ class Permission extends Resource
             DateTime::make(__('nova-permission-tool::permissions.created_at'), 'created_at')->exceptOnForms(),
             DateTime::make(__('nova-permission-tool::permissions.updated_at'), 'updated_at')->exceptOnForms(),
 
-            RoleBooleanGroup::make(__('nova-permission-tool::permissions.roles'), 'roles'),
+            RoleBooleanGroup::make(__('nova-permission-tool::permissions.roles'), 'roles')
+                ->showOnIndex(function (NovaRequest $request, $resource) {
+                    return config('nova-permission-tool.permissions.show-roles-on-index');
+                }),
 
             MorphToMany::make($userResource::label(), 'users', $userResource)
                 ->searchable()

@@ -1,6 +1,8 @@
 <?php
 
-namespace Vyuldashev\NovaPermission;
+declare(strict_types=1);
+
+namespace CodeHeroMX\NovaPermission;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -10,6 +12,7 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\MorphToMany;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Nova;
 use Laravel\Nova\Resource;
 use Spatie\Permission\PermissionRegistrar;
@@ -96,8 +99,8 @@ class Role extends Resource
 
             Text::make(__('nova-permission-tool::roles.name'), 'name')
                 ->rules(['required', 'string', 'max:255'])
-                ->creationRules('unique:'.config('permission.table_names.roles'))
-                ->updateRules('unique:'.config('permission.table_names.roles').',name,{{resourceId}}'),
+                ->creationRules('unique:' . config('permission.table_names.roles'))
+                ->updateRules('unique:' . config('permission.table_names.roles') . ',name,{{resourceId}}'),
 
             Select::make(__('nova-permission-tool::roles.guard_name'), 'guard_name')
                 ->options($guardOptions->toArray())
@@ -106,7 +109,10 @@ class Role extends Resource
             DateTime::make(__('nova-permission-tool::roles.created_at'), 'created_at')->exceptOnForms(),
             DateTime::make(__('nova-permission-tool::roles.updated_at'), 'updated_at')->exceptOnForms(),
 
-            PermissionBooleanGroup::make(__('nova-permission-tool::roles.permissions'), 'permissions'),
+            PermissionBooleanGroup::make(__('nova-permission-tool::roles.permissions'), 'permissions')
+                ->showOnIndex(function (NovaRequest $request, $resource) {
+                    return config('nova-permission-tool.roles.show-permissions-on-index');
+                }),
 
             MorphToMany::make($userResource::label(), 'users', $userResource)
                 ->searchable()

@@ -1,6 +1,8 @@
 <?php
 
-namespace Vyuldashev\NovaPermission;
+declare(strict_types=1);
+
+namespace CodeHeroMX\NovaPermission;
 
 use Illuminate\Support\ServiceProvider;
 use Laravel\Nova\Events\ServingNova;
@@ -15,11 +17,15 @@ class ToolServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'nova-permission-tool');
+        $this->publishes([
+            __DIR__ . '/../config/nova-permission-tool.php' => config_path('nova-permission-tool.php'),
+        ], 'config');
 
         $this->publishes([
-            __DIR__.'/../resources/lang' => resource_path('lang/vendor/nova-permission-tool'),
-        ], 'nova-permission-tool-lang');
+            __DIR__ . '/../resources/lang' => resource_path('lang/vendor/nova-permission-tool'),
+        ]);
+
+        $this->registerTranslations();
 
         $this->app->booted(function () {
             $this->routes();
@@ -51,6 +57,11 @@ class ToolServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->mergeConfigFrom(__DIR__ . '/../config/nova-permission-tool.php', 'nova-permission-tool');
+    }
+
+    protected function registerTranslations()
+    {
+        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'nova-permission-tool');
     }
 }

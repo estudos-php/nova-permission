@@ -7,4 +7,5 @@ return [
     'created_at' => 'Fecha de creación',
     'updated_at' => 'Fecha de actualización',
     'roles' => 'Roles',
+    'attach_to_role' => 'Asignar a Rol',
 ];

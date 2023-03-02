@@ -1,6 +1,8 @@
 <?php
 
-namespace Vyuldashev\NovaPermission;
+declare(strict_types=1);
+
+namespace CodeHeroMX\NovaPermission;
 
 use Illuminate\Support\Collection;
 use Laravel\Nova\Fields\Select;
@@ -36,8 +38,8 @@ class RoleSelect extends Select
     {
         return $this->displayUsing(function ($value) {
             return collect($this->meta['options'])
-                    ->where('value', optional($value->first())->name)
-                    ->first()['label'] ?? optional($value->first())->name;
+                ->where('value', optional($value->first())->name)
+                ->first()['label'] ?? optional($value->first())->name;
         });
     }
 
@@ -49,13 +51,13 @@ class RoleSelect extends Select
      */
     protected function fillAttributeFromRequest(NovaRequest $request, $requestAttribute, $model, $attribute)
     {
-        if (! $request->exists($requestAttribute)) {
+        if (!$request->exists($requestAttribute)) {
             return;
         }
 
         $model->roles()->detach();
 
-        if (! is_null($request[$requestAttribute])) {
+        if (!is_null($request[$requestAttribute])) {
             $roleClass = app(PermissionRegistrar::class)->getRoleClass();
             $role = $roleClass::where('name', $request[$requestAttribute])->first();
             $model->assignRole($role);

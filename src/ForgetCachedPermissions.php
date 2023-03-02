@@ -1,6 +1,8 @@
 <?php
 
-namespace Vyuldashev\NovaPermission;
+declare(strict_types=1);
+
+namespace CodeHeroMX\NovaPermission;
 
 use Laravel\Nova\Nova;
 use Spatie\Permission\PermissionRegistrar;

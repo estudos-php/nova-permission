@@ -1,16 +1,16 @@
 # A Laravel Nova tool for Spatie's laravel-permission library
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/vyuldashev/nova-permission.svg?style=flat-square)](https://packagist.org/packages/vyuldashev/nova-permission)
-[![Total Downloads](https://img.shields.io/packagist/dt/vyuldashev/nova-permission.svg?style=flat-square)](https://packagist.org/packages/vyuldashev/nova-permission)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/codehero-mx/nova-permission-tool.svg?style=flat-square)](https://packagist.org/packages/codehero-mx/nova-permission-tool)
+[![Total Downloads](https://img.shields.io/packagist/dt/CodeHeroMX/nova-permission-tool.svg?style=flat-square)](https://packagist.org/packages/CodeHeroMX/nova-permission-tool)
 
-![screenshot 1](https://raw.githubusercontent.com/vyuldashev/nova-permission/master/docs/user-resource.png)
+![screenshot 1](https://raw.githubusercontent.com/CodeHeroMX/nova-permission-tool/master/docs/user-resource.png)
 
 ## Installation
 
 You can install the package in to a Laravel app that uses [Nova](https://nova.laravel.com) via composer:
 
 ```bash
-composer require vyuldashev/nova-permission
+composer require codehero-mx/nova-permission-tool
 ```
 
 Go through the [Installation](https://github.com/spatie/laravel-permission#installation) section in order to setup [laravel-permission](https://packagist.org/packages/spatie/laravel-permission).
@@ -26,7 +26,7 @@ public function tools()
 {
     return [
         // ...
-        \Vyuldashev\NovaPermission\NovaPermissionTool::make(),
+        \CodeHeroMX\NovaPermission\NovaPermissionTool::make(),
     ];
 }
 ```
@@ -37,7 +37,7 @@ Next, add middleware to `config/nova.php`
 // in config/nova.php
 'middleware' => [
     // ...
-    \Vyuldashev\NovaPermission\ForgetCachedPermissions::class,
+    \CodeHeroMX\NovaPermission\ForgetCachedPermissions::class,
 ],
 ```
 
@@ -51,8 +51,8 @@ public function fields(Request $request)
 {
     return [
         // ...
-        MorphToMany::make('Roles', 'roles', \Vyuldashev\NovaPermission\Role::class),
-        MorphToMany::make('Permissions', 'permissions', \Vyuldashev\NovaPermission\Permission::class),
+        MorphToMany::make('Roles', 'roles', \CodeHeroMX\NovaPermission\Role::class),
+        MorphToMany::make('Permissions', 'permissions', \CodeHeroMX\NovaPermission\Permission::class),
     ];
 }
 ```
@@ -61,8 +61,8 @@ Or if you want to attach multiple permissions at once, use `RoleBooleanGroup` an
 
 ```php
 // ...
-use Vyuldashev\NovaPermission\PermissionBooleanGroup;
-use Vyuldashev\NovaPermission\RoleBooleanGroup;
+use CodeHeroMX\NovaPermission\PermissionBooleanGroup;
+use CodeHeroMX\NovaPermission\RoleBooleanGroup;
 
 public function fields(Request $request)
 {
@@ -78,8 +78,8 @@ If your `User` could have a single role at any given time, you can use `RoleSele
 
 ```php
 // ...
-use Vyuldashev\NovaPermission\PermissionBooleanGroup;
-use Vyuldashev\NovaPermission\RoleSelect;
+use CodeHeroMX\NovaPermission\PermissionBooleanGroup;
+use CodeHeroMX\NovaPermission\RoleSelect;
 
 public function fields(Request $request)
 {
@@ -88,6 +88,14 @@ public function fields(Request $request)
         RoleSelect::make('Role', 'roles'),
     ];
 }
+```
+
+## Configuration
+
+You can optionally publish the config file with:
+
+```bash
+php artisan vendor:publish --provider="CodeHeroMX\NovaPermission\ToolServiceProvider" --tag="config"
 ```
 
 ## Customization
@@ -103,7 +111,7 @@ public function tools()
 {
     return [
         // ...
-        \Vyuldashev\NovaPermission\NovaPermissionTool::make()
+        \CodeHeroMX\NovaPermission\NovaPermissionTool::make()
             ->roleResource(CustomRole::class)
             ->permissionResource(CustomPermission::class),
     ];
@@ -115,8 +123,8 @@ If you want to show your roles and policies with a custom label, you can set `$l
 
 ```php
 // ...
-use Vyuldashev\NovaPermission\PermissionBooleanGroup;
-use Vyuldashev\NovaPermission\RoleSelect;
+use CodeHeroMX\NovaPermission\PermissionBooleanGroup;
+use CodeHeroMX\NovaPermission\RoleSelect;
 
 public function fields(Request $request)
 {
@@ -129,7 +137,6 @@ public function fields(Request $request)
 }
 ```
 
-
 ## Define Policies 
 
 ```php
@@ -141,7 +148,7 @@ public function tools()
 {
     return [
         // ...
-        \Vyuldashev\NovaPermission\NovaPermissionTool::make()
+        \CodeHeroMX\NovaPermission\NovaPermissionTool::make()
             ->rolePolicy(RolePolicy::class)
             ->permissionPolicy(PermissionPolicy::class),
     ];

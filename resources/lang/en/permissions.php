@@ -7,4 +7,5 @@ return [
     'created_at' => 'Created at',
     'updated_at' => 'Updated at',
     'roles' => 'Roles',
+    'attach_to_role' => 'Attach to Role',
 ];
