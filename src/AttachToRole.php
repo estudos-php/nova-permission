@@ -1,6 +1,8 @@
 <?php
 
-namespace Vyuldashev\NovaPermission;
+declare(strict_types=1);
+
+namespace CodeHeroMX\NovaPermission;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -14,6 +16,16 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 class AttachToRole extends Action
 {
     use InteractsWithQueue, Queueable, SerializesModels;
+
+    /**
+     * Get the displayable name of the action.
+     *
+     * @return string
+     */
+    public function name()
+    {
+        return __('nova-permission-tool::permissions.attach_to_role');
+    }
 
     /**
      * Perform the action on the given models.
@@ -39,8 +51,10 @@ class AttachToRole extends Action
     public function fields(NovaRequest $request)
     {
         return [
-            Select::make('Role')->options(Role::getModel()->get()->pluck('name',
-                'id')->toArray())->displayUsingLabels(),
+            Select::make(__('nova-permission-tool::resources.Role'), 'role')->options(Role::getModel()->get()->pluck(
+                'name',
+                'id'
+            )->toArray())->displayUsingLabels(),
         ];
     }
 }
