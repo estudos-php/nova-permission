@@ -3,7 +3,7 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/codehero-mx/nova-permission-tool.svg?style=flat-square)](https://packagist.org/packages/codehero-mx/nova-permission-tool)
 [![Total Downloads](https://img.shields.io/packagist/dt/CodeHeroMX/nova-permission-tool.svg?style=flat-square)](https://packagist.org/packages/CodeHeroMX/nova-permission-tool)
 
-![screenshot 1](https://raw.githubusercontent.com/CodeHeroMX/nova-permission-tool/master/docs/user-resource.png)
+![screenshot 1](https://raw.githubusercontent.com/CodeHeroMX/nova-permission-tool/main/docs/user-resource.png)
 
 ## Installation
 
