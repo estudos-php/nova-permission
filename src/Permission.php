@@ -171,4 +171,17 @@ class Permission extends Resource
             new AttachToRole(),
         ];
     }
+
+    /**
+     * Return a replicated resource.
+     *
+     * @return Role|\InvalidArgumentException
+     */
+    public function replicate()
+    {
+        return tap(parent::replicate(), function ($resource) {
+            $model = $resource->model();
+            $model->roles = parent::model()->roles;
+        });
+    }
 }
